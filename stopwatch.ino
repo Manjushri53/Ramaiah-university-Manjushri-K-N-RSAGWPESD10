@@ -23,38 +23,38 @@ void loop() {
   if(digitalRead(ssButton) == 1){
     delay(200);
     lcd.clear();
-    lcd.setCursor(3,0);
-    lcd.print("STOPWATCH");
+  	lcd.setCursor(3,0);
+  	lcd.print("STOPWATCH");
     lcd.setCursor(5,1);
     lcd.print("00:00");
     startMillis = millis();
     while(1){
       if(digitalRead(ssButton) == 1 || digitalRead(resButton) == 1){
-        delay(200);
+      	delay(200);
         break;
       }
       Sec = ((millis()-startMillis)/1000)%60;
       Min = ((millis()-startMillis)/60000)%60;
       lcd.setCursor(5,1);
       if(Min<10){
-        lcd.print("0");
+      	lcd.print("0");
         lcd.print(Min);
       }
       else{
-        lcd.print(Min);
+      	lcd.print(Min);
       }
       lcd.print(":");
       if(Sec<10){
-        lcd.print("0");
+      	lcd.print("0");
         lcd.print(Sec);
       }
       else{
-        lcd.print(Sec);
+      	lcd.print(Sec);
       }
     }
   }
   if(digitalRead(resButton) == 1){
-    lcd.setCursor(5,1);
+  	lcd.setCursor(5,1);
     lcd.print("00:00");
   }
 }
