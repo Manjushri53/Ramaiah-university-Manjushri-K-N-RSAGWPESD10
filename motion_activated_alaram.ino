@@ -1,25 +1,41 @@
-#define PIR_PIN 2         // Digital pin for PIR sensor
-#define BUZZER_PIN 3      // Digital pin for buzzer
+const int pirPin = 2;        // PIR sensor output pin
+const int buzzerPin = 3;     // Buzzer pin
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(PIR_PIN, INPUT);       // Set PIR sensor as input
-  pinMode(BUZZER_PIN, OUTPUT);   // Set buzzer as output
-  Serial.println("Motion-Activated Alarm System Initialized");
+    // Initialize serial communication for logging timestamps
+    Serial.begin(9600);
+
+    // Set PIR sensor and buzzer pins
+    pinMode(pirPin, INPUT);
+    pinMode(buzzerPin, OUTPUT);
+
+    // Initial message
+    Serial.println("Motion-Activated Alarm System");
+    Serial.println("Waiting for motion...");
 }
 
 void loop() {
- 
-  if (digitalRead(PIR_PIN) == HIGH) {
-    
-    digitalWrite(BUZZER_PIN, HIGH);
-    delay(500);                   
-    digitalWrite(BUZZER_PIN, LOW);
+    // Read the PIR sensor
+    int motionDetected = digitalRead(pirPin);
 
-    // Log the timestamp in Serial Monitor
-    Serial.print("Motion detected at: ");
-    Serial.println(millis() / 1000); 
-  }
+    // Check if motion is detected
+    if (motionDetected == HIGH) {
+        // Activate the buzzer
+        digitalWrite(buzzerPin, HIGH);
 
-  delay(1000); 
+        // Log the timestamp to the Serial Monitor
+        unsigned long timestamp = millis();  // Get current time in milliseconds
+        Serial.print("Motion detected at: ");
+        Serial.print(timestamp / 1000);  // Convert milliseconds to seconds
+        Serial.println(" seconds");
+
+        // Keep the buzzer on for a short duration
+        delay(1000);  // Buzzer sounds for 1 second
+
+        // Turn off the buzzer
+        digitalWrite(buzzerPin, LOW);
+    }
+
+    // Small delay to prevent excessive triggering
+    delay(200);
 }
